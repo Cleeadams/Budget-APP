@@ -1,3 +1,5 @@
+import math
+
 
 class Category:
     astricts = {'Food': '*************', 'Clothing': '***********', 'Entertainment': '********'}
@@ -6,6 +8,8 @@ class Category:
     def __init__(self, name):
         self.name = name
         self.ledger = list()
+        self.spent = float(0)
+        self.proportion = float(0)
 
     def get_ast(self):
         return Category.astricts[self.name]
@@ -18,6 +22,7 @@ class Category:
         if self.check_funds(amount) == True:
             self.ledger.append(float(-amount))
             self.ledger.append(description)
+            self.spent += float(amount)
             return True
         else:
             False
@@ -58,19 +63,41 @@ class Category:
         output = items + 'Total: ' + str(self.get_balance())
         return output
 
-food = Category('Food')
-food.deposit(1000, 'initial deposit')
-food.withdraw(10.15, 'groceries')
-food.withdraw(15.89, 'restaurant and more food')
-clothing = Category('Clothing')
-food.transfer(50, clothing)
-clothing.withdraw(25.55)
-clothing.withdraw(100)
-auto = Category("Auto")
-auto.deposit(1000, "initial deposit")
-auto.withdraw(15)
+def create_spend_chart(categories):
+    total = float(0)
+    maxPercent = 100
+    output = ''
+    for object in categories:
+        total += round(object.spent,2)
 
-print(auto)
-print(clothing)
-print(food)
+    for object in categories:
+        object.proportion = math.floor(object.spent/total*100)
+    print('Percentage spent by category')
+    for i in range(11):
+        objectCharc = ''
+        for object in categories:
+            if object.proportion >= maxPercent:
+                objectCharc += 'o  '
+            else:
+                objectCharc += '   '
+        output += f'{maxPercent:3}| ' + objectCharc + '\n'
+        maxPercent -= 10
+    blank = ''
+    blankSize = 3*len(categories) + 1
+    output += f'    {blank:-^{blankSize}}\n'
 
+    maxNameLen = 0
+    for object in categories:
+        if len(list(object.name)) > maxNameLen:
+            maxNameLen = len(list(object.name))
+
+    for i in range(maxNameLen):
+        output += '     '
+        for object in categories:
+            if len(list(object.name)) < i+1:
+                output += '   '
+            else:
+                output += f'{list(object.name)[i]}  '
+        output += '\n'
+
+    return output

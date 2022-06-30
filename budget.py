@@ -7,7 +7,7 @@ class Category:
     # Creates or intiates the object!
     def __init__(self, name):
         self.name = name
-        self.ledger = list()
+        self.ledger = []
         self.spent = float(0)
         self.proportion = float(0)
 

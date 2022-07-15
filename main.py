@@ -1,18 +1,20 @@
-import budget
+from budget import *
 from budget import create_spend_chart
 
 
-food = budget.Category('Food')
-food.deposit(400, 'monthly food budget')
-food.withdraw(3, 'lunch')
+food = Category('Food')
+food.deposit(900, "deposit")
+entertainment = Category('Entertainment')
+entertainment.deposit(900, "deposit")
+business = Category('Business')
+business.deposit(900, "deposit")
+food.withdraw(105.55)
+entertainment.withdraw(33.40)
+business.withdraw(10.99)
 
-clothing = budget.Category('Clothing')
-clothing.deposit(400, 'monthly lothing budget')
-clothing.withdraw(3, 'lunch')
 
+print(create_spend_chart([business,food,entertainment]))
 print(food)
-print(create_spend_chart([food,clothing]))
-
 
 
 
